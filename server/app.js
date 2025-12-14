@@ -11,13 +11,17 @@ const app = express();
 // Usually better to connect before listing.
 // But for separation of concerns, app.js defines the app, server.js starts it.
 
-// Middleware
+const corsOptions = {
+    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
+};
+
+app.use(cors(corsOptions));
+app.options(/.*/, cors(corsOptions)); // Enable pre-flight for all routes (Regex for Express 5)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({
-    origin: 'http://localhost:5173', // Frontend URL
-    credentials: true
-}));
 app.use(cookieParser());
 
 // Routes Placeholder

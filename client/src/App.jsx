@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Outlet, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux'; // Import useSelector
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import Login from './pages/auth/Login';
@@ -19,18 +20,34 @@ import StateAnalytics from './pages/admin/StateAnalytics';
 import MigrationHeatmap from './pages/admin/MigrationHeatmap';
 import NotFound from './pages/NotFound';
 import ProtectedRoute from './components/ProtectedRoute';
-
 import Home from './pages/Home';
+import { cn } from './lib/utils';
 
 const MainLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { user } = useSelector((state) => state.auth); // access user to check if logged in
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
+  // Decide if we should show sidebar-layout or full-width layout
+  // Generally if user is logged in, we show sidebar.
+  // But Home might be accessible for logged in users too? 
+  // For now, let's assume dashboard layout for logged in routes.
+
+  const isDashboard = !!user;
+
   return (
-    <div className="container">
-      <Navbar toggleSidebar={toggleSidebar} />
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      <Outlet />
+
+      <div className={cn(
+        "min-h-screen transition-all duration-300 ease-in-out",
+        isDashboard ? "md:ml-64" : ""
+      )}>
+        <Navbar toggleSidebar={toggleSidebar} />
+        <main className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 };
@@ -39,11 +56,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Auth Routes - Standalone */}
+        {/* Auth Routes - Standalone Layout */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Main App Routes - With Layout */}
+        {/* Main App Routes - With Sidebar/Navbar Layout */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
 
@@ -72,7 +89,7 @@ function App() {
 
           {/* Admin Routes */}
           <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
-            <Route path="/admin-dashboard" element={<StateAnalytics />} /> {/* reusing analytics as dashboard */}
+            <Route path="/admin-dashboard" element={<StateAnalytics />} />
             <Route path="/analytics" element={<StateAnalytics />} />
             <Route path="/heatmap" element={<MigrationHeatmap />} />
           </Route>

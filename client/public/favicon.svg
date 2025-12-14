@@ -1,0 +1,9 @@
+<svg width="64" height="64" viewBox="40 20 257 257" xmlns="http://www.w3.org/2000/svg">
+  <!-- 
+    Favicon Wrapper: 
+    Displays the original logo.png but 'cropped' to the face area using viewBox.
+    Original Size: 337w x 626h
+    ViewBox: x=40, y=20, w=257, h=257 (Focusing on top-center head area)
+  -->
+  <image href="/logo.png" width="337" height="626" />
+</svg>
