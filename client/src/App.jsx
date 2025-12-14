@@ -40,11 +40,11 @@ const MainLayout = () => {
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <div className={cn(
-        "min-h-screen transition-all duration-300 ease-in-out",
+        "min-h-screen transition-all duration-300 ease-in-out flex flex-col",
         isDashboard ? "md:ml-64" : ""
       )}>
         <Navbar toggleSidebar={toggleSidebar} />
-        <main className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+        <main className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto flex-1 w-full">
           <Outlet />
         </main>
       </div>
@@ -56,13 +56,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Auth Routes - Standalone Layout */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-
         {/* Main App Routes - With Sidebar/Navbar Layout */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
           {/* Worker Routes */}
           <Route element={<ProtectedRoute allowedRoles={['worker']} />}>

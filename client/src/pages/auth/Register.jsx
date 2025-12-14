@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { register, reset } from '../../store/authSlice';
 import { Loader2, User, Mail, Lock, Phone, HardHat, Building2, BadgeCheck, ShieldCheck, Eye, EyeOff } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 const Register = () => {
+    const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState('worker');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -70,25 +72,25 @@ const Register = () => {
 
     // Role Configuration
     const roles = [
-        { id: 'worker', label: 'Worker', emoji: '👷', icon: HardHat, color: 'blue' },
-        { id: 'employer', label: 'Employer', emoji: '🏢', icon: Building2, color: 'indigo' },
-        { id: 'officer', label: 'Officer', emoji: '👮', icon: BadgeCheck, color: 'emerald' },
+        { id: 'worker', label: t('worker'), emoji: '👷', icon: HardHat, color: 'blue' },
+        { id: 'employer', label: t('employer'), emoji: '🏢', icon: Building2, color: 'indigo' },
+        { id: 'officer', label: t('officer'), emoji: '👮', icon: BadgeCheck, color: 'emerald' },
     ];
 
     const activeRoleConfig = roles.find(r => r.id === activeTab);
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="min-h-full flex items-center justify-center bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
             {/* Background Decoration */}
             <div className="absolute top-0 right-0 w-full h-64 bg-gradient-to-l from-blue-600 to-indigo-700 transform skew-y-3 origin-top-right z-0"></div>
 
             <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-2xl border border-slate-100 relative z-10 transition-all duration-300">
                 <div className="text-center">
                     <h2 className="mt-2 text-3xl font-extrabold text-slate-900 tracking-tight">
-                        Create Account
+                        {t('create_account_title')}
                     </h2>
                     <p className="mt-2 text-sm text-slate-600">
-                        Join PravasiSetu today
+                        {t('join_today')}
                     </p>
                 </div>
 
@@ -128,10 +130,10 @@ const Register = () => {
                     </div>
                     <div>
                         <h3 className="text-sm font-semibold text-slate-900">
-                            Register as {activeRoleConfig.label}
+                            {t('register_as', { role: activeRoleConfig.label })}
                         </h3>
                         <p className="text-xs text-slate-500">
-                            Create your {activeRoleConfig.label.toLowerCase()} profile
+                            {t('create_profile', { role: activeRoleConfig.label.toLowerCase() })}
                         </p>
                     </div>
                 </div>
@@ -140,7 +142,7 @@ const Register = () => {
                     <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-md animate-pulse">
                         <div className="flex">
                             <div className="ml-3">
-                                <p className="text-sm font-medium text-red-800">Registration Failed</p>
+                                <p className="text-sm font-medium text-red-800">{t('registration_failed')}</p>
                                 <p className="text-sm text-red-700 mt-1">{message}</p>
                             </div>
                         </div>
@@ -151,7 +153,7 @@ const Register = () => {
                     <div className="grid grid-cols-1 gap-4">
                         <div className="group">
                             <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1 ml-1">
-                                Full Name
+                                {t('full_name')}
                             </label>
                             <div className="relative rounded-md shadow-sm transition-all duration-200 group-focus-within:ring-2 group-focus-within:ring-indigo-500 group-focus-within:ring-offset-1">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -165,14 +167,14 @@ const Register = () => {
                                     value={name}
                                     onChange={onChange}
                                     className="block w-full pl-10 sm:text-sm border-slate-300 rounded-md focus:ring-0 focus:border-transparent p-2.5 outline-none border"
-                                    placeholder="Full Name"
+                                    placeholder={t('full_name')}
                                 />
                             </div>
                         </div>
 
                         <div className="group">
                             <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1 ml-1">
-                                Email Address
+                                {t('email')}
                             </label>
                             <div className="relative rounded-md shadow-sm transition-all duration-200 group-focus-within:ring-2 group-focus-within:ring-indigo-500 group-focus-within:ring-offset-1">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -194,7 +196,7 @@ const Register = () => {
 
                         <div className="group">
                             <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-1 ml-1">
-                                Phone Number
+                                {t('phone_number')}
                             </label>
                             <div className="relative rounded-md shadow-sm transition-all duration-200 group-focus-within:ring-2 group-focus-within:ring-indigo-500 group-focus-within:ring-offset-1">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -216,7 +218,7 @@ const Register = () => {
 
                         <div className="group">
                             <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1 ml-1">
-                                Password
+                                {t('password')}
                             </label>
                             <div className="relative rounded-md shadow-sm transition-all duration-200 group-focus-within:ring-2 group-focus-within:ring-indigo-500 group-focus-within:ring-offset-1">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -249,7 +251,7 @@ const Register = () => {
 
                         <div className="group">
                             <label htmlFor="confirmPassword" className="block text-sm font-medium text-slate-700 mb-1 ml-1">
-                                Confirm Password
+                                {t('confirm_password')}
                             </label>
                             <div className="relative rounded-md shadow-sm transition-all duration-200 group-focus-within:ring-2 group-focus-within:ring-indigo-500 group-focus-within:ring-offset-1">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -295,7 +297,7 @@ const Register = () => {
                             {isLoading ? (
                                 <Loader2 className="animate-spin h-5 w-5" />
                             ) : (
-                                "Create Account"
+                                t('register')
                             )}
                         </button>
                     </div>
@@ -303,9 +305,9 @@ const Register = () => {
 
                 <div className="text-center mt-6 pt-4 border-t border-slate-100">
                     <p className="text-sm text-slate-600">
-                        Already have an account?{' '}
+                        {t('already_have_account')}{' '}
                         <Link to="/login" className="font-semibold text-indigo-600 hover:text-indigo-500 hover:underline">
-                            Log in
+                            {t('log_in')}
                         </Link>
                     </p>
                 </div>

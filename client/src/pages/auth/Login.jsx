@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { login, reset, logout } from '../../store/authSlice';
 import { Loader2, Lock, Mail, HardHat, Building2, BadgeCheck, Eye, EyeOff } from 'lucide-react'; // Changed icons for roles
 import { cn } from '../../lib/utils';
 
 const Login = () => {
+    const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState('worker');
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
@@ -28,15 +30,8 @@ const Login = () => {
 
         if (isSuccess || user) {
             if (user) {
-                // Client-side Role Verification
-                if (user.role !== activeTab && user.role !== 'admin') { // Admin can login anywhere (optional rule, or strictly enforce)
-                    // For strict enforcement:
-                    if (user.role !== activeTab) {
-                        dispatch(logout()); // Logout immediately
-                        alert(`Access Denied! You are a ${user.role}, but tried to login as ${activeTab}.`);
-                        return;
-                    }
-                }
+                // Client-side Role Verification - REMOVED strict check to improve UX
+                // We trust the backend response `user.role` to guide the user to the right place.
 
                 if (user.role === 'worker') navigate('/worker-dashboard');
                 else if (user.role === 'employer') navigate('/employer-dashboard');
@@ -64,25 +59,25 @@ const Login = () => {
 
     // Role Configuration
     const roles = [
-        { id: 'worker', label: 'Worker', emoji: '👷', icon: HardHat, color: 'blue' },
-        { id: 'employer', label: 'Employer', emoji: '🏢', icon: Building2, color: 'indigo' },
-        { id: 'officer', label: 'Officer', emoji: '👮', icon: BadgeCheck, color: 'emerald' },
+        { id: 'worker', label: t('worker'), emoji: '👷', icon: HardHat, color: 'blue' },
+        { id: 'employer', label: t('employer'), emoji: '🏢', icon: Building2, color: 'indigo' },
+        { id: 'officer', label: t('officer'), emoji: '👮', icon: BadgeCheck, color: 'emerald' },
     ];
 
     const activeRoleConfig = roles.find(r => r.id === activeTab);
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="min-h-full flex items-center justify-center bg-slate-50 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
             {/* Background Decoration */}
             <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-r from-blue-600 to-indigo-700 transform -skew-y-3 origin-top-left z-0"></div>
 
             <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-2xl border border-slate-100 relative z-10 transition-all duration-300">
                 <div className="text-center">
                     <h2 className="mt-2 text-3xl font-extrabold text-slate-900 tracking-tight">
-                        PravasiSetu
+                        {t('app_name')}
                     </h2>
                     <p className="mt-2 text-sm text-slate-600">
-                        Secure Access Portal
+                        {t('secure_access')}
                     </p>
                 </div>
 
@@ -122,10 +117,10 @@ const Login = () => {
                     </div>
                     <div>
                         <h3 className="text-sm font-semibold text-slate-900">
-                            {activeRoleConfig.label} Login
+                            {activeRoleConfig.label} {t('login')}
                         </h3>
                         <p className="text-xs text-slate-500">
-                            Access your {activeRoleConfig.label.toLowerCase()} dashboard
+                            {t('login_title')}
                         </p>
                     </div>
                 </div>
@@ -134,7 +129,7 @@ const Login = () => {
                     <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-md animate-pulse">
                         <div className="flex">
                             <div className="ml-3">
-                                <p className="text-sm font-medium text-red-800">Login Failed</p>
+                                <p className="text-sm font-medium text-red-800">{t('login_failed')}</p>
                                 <p className="text-sm text-red-700 mt-1">{message}</p>
                             </div>
                         </div>
@@ -145,7 +140,7 @@ const Login = () => {
                     <div className="space-y-5">
                         <div className="group">
                             <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1 ml-1">
-                                Email Address
+                                {t('email')}
                             </label>
                             <div className="relative rounded-md shadow-sm transition-all duration-200 group-focus-within:ring-2 group-focus-within:ring-indigo-500 group-focus-within:ring-offset-1">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -167,7 +162,7 @@ const Login = () => {
 
                         <div className="group">
                             <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1 ml-1">
-                                Password
+                                {t('password')}
                             </label>
                             <div className="relative rounded-md shadow-sm transition-all duration-200 group-focus-within:ring-2 group-focus-within:ring-indigo-500 group-focus-within:ring-offset-1">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -208,13 +203,13 @@ const Login = () => {
                                 className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-300 rounded transition-colors"
                             />
                             <label htmlFor="remember-me" className="ml-2 block text-sm text-slate-700">
-                                Remember me
+                                {t('remember_me')}
                             </label>
                         </div>
 
                         <div className="text-sm">
                             <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500 hover:underline">
-                                Forgot password?
+                                {t('forgot_password')}
                             </a>
                         </div>
                     </div>
@@ -234,7 +229,7 @@ const Login = () => {
                             {isLoading ? (
                                 <Loader2 className="animate-spin h-5 w-5" />
                             ) : (
-                                "Sign in securely"
+                                t('sign_in')
                             )}
                         </button>
                     </div>
@@ -242,9 +237,9 @@ const Login = () => {
 
                 <div className="text-center mt-6 pt-4 border-t border-slate-100">
                     <p className="text-sm text-slate-600">
-                        Don't have an account?{' '}
+                        {t('dont_have_account')}{' '}
                         <Link to="/register" className="font-semibold text-indigo-600 hover:text-indigo-500 hover:underline">
-                            Create {activeRoleConfig.label} Account
+                            {t('create_account', { role: activeRoleConfig.label })}
                         </Link>
                     </p>
                 </div>

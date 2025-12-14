@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, reset } from '../store/authSlice';
 import LanguageSwitcher from './LanguageSwitcher';
-import { useLanguage } from '../utils/i18n';
+import { useTranslation } from 'react-i18next';
 import { LogOut, Menu, UserCircle } from 'lucide-react';
 import { cn } from '../lib/utils';
 
@@ -10,7 +10,7 @@ const Navbar = ({ toggleSidebar }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.auth);
-    const { t } = useLanguage();
+    const { t } = useTranslation();
 
     const onLogout = () => {
         dispatch(logout());

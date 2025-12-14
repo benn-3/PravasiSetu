@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { HardHat, Building2, BadgeCheck, ArrowRight, Shield, Globe, Users, CheckCircle } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 const Home = () => {
     const { user } = useSelector((state) => state.auth);
+    const { t } = useTranslation();
 
     return (
         <div className="min-h-screen bg-slate-50 flex flex-col">
@@ -25,12 +27,11 @@ const Home = () => {
                         <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
                             <div className="sm:text-center lg:text-left">
                                 <h1 className="text-4xl tracking-tight font-extrabold text-slate-900 sm:text-5xl md:text-6xl">
-                                    <span className="block xl:inline">Empowering Migrants,</span>{' '}
-                                    <span className="block text-blue-700 xl:inline">Connecting India</span>
+                                    <span className="block xl:inline">{t('hero_title')}</span>{' '}
+                                    <span className="block text-blue-700 xl:inline">{t('hero_subtitle')}</span>
                                 </h1>
                                 <p className="mt-3 text-base text-slate-600 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                                    PravasiSetu bridges the gap between migrant workers and reliable employers.
-                                    Find trusted jobs, verify your skills, and access government support with confidence.
+                                    {t('hero_desc')}
                                 </p>
                                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                                     {!user ? (
@@ -40,7 +41,7 @@ const Home = () => {
                                                     to="/register"
                                                     className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 md:py-4 md:text-lg md:px-10 transition-transform transform hover:-translate-y-1 shadow-blue-500/50 hover:shadow-blue-600/50"
                                                 >
-                                                    Get Started
+                                                    {t('get_started')}
                                                 </Link>
                                             </div>
                                             <div className="mt-3 sm:mt-0 sm:ml-3">
@@ -48,7 +49,7 @@ const Home = () => {
                                                     to="/login"
                                                     className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100 md:py-4 md:text-lg md:px-10 transition-transform transform hover:-translate-y-1"
                                                 >
-                                                    Log In
+                                                    {t('log_in')}
                                                 </Link>
                                             </div>
                                         </>
@@ -58,7 +59,7 @@ const Home = () => {
                                                 to={user.role === 'worker' ? '/worker-dashboard' : user.role === 'employer' ? '/employer-dashboard' : '/officer-dashboard'}
                                                 className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-700 hover:bg-blue-800 md:py-4 md:text-lg md:px-10 transition-transform transform hover:-translate-y-1"
                                             >
-                                                Go to Dashboard <ArrowRight className="ml-2 h-5 w-5" />
+                                                {t('go_to_dashboard')} <ArrowRight className="ml-2 h-5 w-5" />
                                             </Link>
                                         </div>
                                     )}
@@ -88,12 +89,12 @@ const Home = () => {
             <div className="py-20 bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="lg:text-center">
-                        <h2 className="text-base text-blue-600 font-semibold tracking-wide uppercase">Features</h2>
+                        <h2 className="text-base text-blue-600 font-semibold tracking-wide uppercase">{t('features_title')}</h2>
                         <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-                            A Platform for Everyone
+                            {t('features_subtitle')}
                         </p>
                         <p className="mt-4 max-w-2xl text-xl text-slate-500 lg:mx-auto">
-                            Whether you are a job seeker, an employer, or a government official, PravasiSetu provides the tools you need.
+                            {t('features_desc')}
                         </p>
                     </div>
 
@@ -101,20 +102,20 @@ const Home = () => {
                         <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10">
                             {[
                                 {
-                                    name: 'For Workers',
-                                    description: 'Access verified job listings, build your digital skill profile, and get insurance & health benefits.',
+                                    name: t('for_workers'),
+                                    description: t('for_workers_desc'),
                                     icon: HardHat,
                                     color: 'bg-blue-600',
                                 },
                                 {
-                                    name: 'For Employers',
-                                    description: 'Hire verified skilled workers, track attendance, and ensure compliance with labor laws easily.',
+                                    name: t('for_employers'),
+                                    description: t('for_employers_desc'),
                                     icon: Building2,
                                     color: 'bg-slate-800',
                                 },
                                 {
-                                    name: 'Government Support',
-                                    description: 'Monitor migration trends, verify worker safety, and ensure welfare schemes reach the right people.',
+                                    name: t('gov_support'),
+                                    description: t('gov_support_desc'),
                                     icon: BadgeCheck,
                                     color: 'bg-teal-600',
                                 },
@@ -143,23 +144,23 @@ const Home = () => {
                 <div className="max-w-7xl mx-auto py-12 px-4 sm:py-16 sm:px-6 lg:px-8 lg:py-20">
                     <div className="max-w-4xl mx-auto text-center">
                         <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-                            Trusted by thousands across the nation
+                            {t('trusted_by')}
                         </h2>
                         <p className="mt-3 text-xl text-slate-400 sm:mt-4">
-                            Building a safer, more transparent migration ecosystem for India.
+                            {t('trusted_desc')}
                         </p>
                     </div>
                     <dl className="mt-10 text-center sm:max-w-3xl sm:mx-auto sm:grid sm:grid-cols-3 sm:gap-8">
                         <div className="flex flex-col">
-                            <dt className="order-2 mt-2 text-lg leading-6 font-medium text-slate-300">Workers Registered</dt>
+                            <dt className="order-2 mt-2 text-lg leading-6 font-medium text-slate-300">{t('workers_registered')}</dt>
                             <dd className="order-1 text-5xl font-extrabold text-blue-500">100k+</dd>
                         </div>
                         <div className="flex flex-col mt-10 sm:mt-0">
-                            <dt className="order-2 mt-2 text-lg leading-6 font-medium text-slate-300">Jobs Posted</dt>
+                            <dt className="order-2 mt-2 text-lg leading-6 font-medium text-slate-300">{t('jobs_posted')}</dt>
                             <dd className="order-1 text-5xl font-extrabold text-blue-500">50k+</dd>
                         </div>
                         <div className="flex flex-col mt-10 sm:mt-0">
-                            <dt className="order-2 mt-2 text-lg leading-6 font-medium text-slate-300">Districts Covered</dt>
+                            <dt className="order-2 mt-2 text-lg leading-6 font-medium text-slate-300">{t('districts_covered')}</dt>
                             <dd className="order-1 text-5xl font-extrabold text-blue-500">500+</dd>
                         </div>
                     </dl>
@@ -173,36 +174,36 @@ const Home = () => {
                         <div className="col-span-1 md:col-span-1">
                             <h3 className="text-white text-lg font-bold mb-4">PravasiSetu</h3>
                             <p className="text-sm text-slate-400">
-                                Empowering India's migrant workforce with secure jobs and reliable employer connections.
+                                {t('footer_desc')}
                             </p>
                         </div>
                         <div>
-                            <h4 className="text-white font-semibold mb-4">Quick Links</h4>
+                            <h4 className="text-white font-semibold mb-4">{t('quick_links')}</h4>
                             <ul className="space-y-2 text-sm">
-                                <li><a href="#" className="hover:text-indigo-400 transition-colors">Find Jobs</a></li>
-                                <li><a href="#" className="hover:text-indigo-400 transition-colors">Hire Workers</a></li>
-                                <li><a href="#" className="hover:text-indigo-400 transition-colors">Government Schemes</a></li>
+                                <li><a href="#" className="hover:text-indigo-400 transition-colors">{t('find_job')}</a></li>
+                                <li><a href="#" className="hover:text-indigo-400 transition-colors">{t('hire_workers')}</a></li>
+                                <li><a href="#" className="hover:text-indigo-400 transition-colors">{t('gov_schemes')}</a></li>
                             </ul>
                         </div>
                         <div>
-                            <h4 className="text-white font-semibold mb-4">Support</h4>
+                            <h4 className="text-white font-semibold mb-4">{t('support')}</h4>
                             <ul className="space-y-2 text-sm">
-                                <li><a href="#" className="hover:text-indigo-400 transition-colors">Help Center</a></li>
-                                <li><a href="#" className="hover:text-indigo-400 transition-colors">Worker Safety</a></li>
-                                <li><a href="#" className="hover:text-indigo-400 transition-colors">Contact Us</a></li>
+                                <li><a href="#" className="hover:text-indigo-400 transition-colors">{t('help_center')}</a></li>
+                                <li><a href="#" className="hover:text-indigo-400 transition-colors">{t('worker_safety')}</a></li>
+                                <li><a href="#" className="hover:text-indigo-400 transition-colors">{t('contact_us')}</a></li>
                             </ul>
                         </div>
                         <div>
-                            <h4 className="text-white font-semibold mb-4">Legal</h4>
+                            <h4 className="text-white font-semibold mb-4">{t('legal')}</h4>
                             <ul className="space-y-2 text-sm">
-                                <li><a href="#" className="hover:text-indigo-400 transition-colors">Privacy Policy</a></li>
-                                <li><a href="#" className="hover:text-indigo-400 transition-colors">Terms of Service</a></li>
-                                <li><a href="#" className="hover:text-indigo-400 transition-colors">Grievance Redressal</a></li>
+                                <li><a href="#" className="hover:text-indigo-400 transition-colors">{t('privacy_policy')}</a></li>
+                                <li><a href="#" className="hover:text-indigo-400 transition-colors">{t('terms_of_service')}</a></li>
+                                <li><a href="#" className="hover:text-indigo-400 transition-colors">{t('grievance_redressal')}</a></li>
                             </ul>
                         </div>
                     </div>
                     <div className="mt-8 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center text-sm text-slate-500">
-                        <p>&copy; 2024 PravasiSetu. All rights reserved.</p>
+                        <p>&copy; 2025 PravasiSetu. {t('rights_reserved')}</p>
                         <div className="flex space-x-6 mt-4 md:mt-0">
                             <a href="#" className="text-slate-400 hover:text-white transition-colors">
                                 <span className="sr-only">Facebook</span>
