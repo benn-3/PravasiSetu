@@ -39,7 +39,9 @@ const VerificationQueue = () => {
             // Could use a toast here
             // alert('Worker Verified'); 
         } catch (error) {
-            alert('Verification failed');
+            console.error("Verification error:", error);
+            const message = error.response?.data?.message || 'Verification failed';
+            alert(message);
         }
     };
 

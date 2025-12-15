@@ -71,15 +71,17 @@ const getAllWorkers = async (req, res) => {
 // @access  Private (Officer)
 const verifyWorker = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
+        const user = await User.findByIdAndUpdate(
+            req.params.id,
+            { isVerified: true },
+            { new: true }
+        );
+
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        user.isVerified = true;
-        await user.save();
-
-        res.json({ message: 'Worker verified successfully' });
+        res.json({ message: 'Worker verified successfully', user });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
