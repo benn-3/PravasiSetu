@@ -1,0 +1,41 @@
+name: MERN CI-CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Docker Login
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login \
+           -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+    - name: Build Backend Image
+      run: docker build -t yourdockerhub/mern-server ./server
+
+    - name: Build Frontend Image
+      run: docker build -t yourdockerhub/mern-client ./client
+
+    - name: Push Images
+      run: |
+        docker push yourdockerhub/mern-server
+        docker push yourdockerhub/mern-client
+
+    # Setup Kubeconfig (Required for kubectl apply)
+    - name: Set up Kubectl
+      uses: azure/setup-kubectl@v3
+
+    - name: Configure Kubeconfig
+      run: |
+        mkdir -p $HOME/.kube
+        echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+        chmod 600 $HOME/.kube/config
+
+    - name: Deploy to Kubernetes
+      run: kubectl apply -f k8s/
