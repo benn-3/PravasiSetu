@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: mern-server
-        image: yourdockerhub/mern-server:latest
+        image: bennz03/mern-server:latest
         ports:
         - containerPort: 5000
         env:

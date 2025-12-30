@@ -13,19 +13,18 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Docker Login
-      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login \
-           -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
     - name: Build Backend Image
-      run: docker build -t yourdockerhub/mern-server ./server
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/mern-server ./server
 
     - name: Build Frontend Image
-      run: docker build -t yourdockerhub/mern-client ./client
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/mern-client ./client
 
     - name: Push Images
       run: |
-        docker push yourdockerhub/mern-server
-        docker push yourdockerhub/mern-client
+        docker push ${{ secrets.DOCKER_USERNAME }}/mern-server
+        docker push ${{ secrets.DOCKER_USERNAME }}/mern-client
 
     # Setup Kubeconfig (Required for kubectl apply)
     - name: Set up Kubectl
