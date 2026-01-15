@@ -26,15 +26,13 @@ jobs:
         docker push ${{ secrets.DOCKER_USERNAME }}/mern-server
         docker push ${{ secrets.DOCKER_USERNAME }}/mern-client
 
-    # Setup Kubeconfig (Required for kubectl apply)
-    - name: Set up Kubectl
-      uses: azure/setup-kubectl@v3
-
-    - name: Configure Kubeconfig
-      run: |
-        mkdir -p $HOME/.kube
-        echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
-        chmod 600 $HOME/.kube/config
-
-    - name: Deploy to Kubernetes
-      run: kubectl apply -f k8s/
+    # TODO: Add Kubernetes deployment steps when cluster is ready
+    # - name: Set up Kubectl
+    #   uses: azure/setup-kubectl@v3
+    # - name: Configure Kubeconfig
+    #   run: |
+    #     mkdir -p $HOME/.kube
+    #     echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+    #     chmod 600 $HOME/.kube/config
+    # - name: Deploy to Kubernetes
+    #   run: kubectl apply -f k8s/
