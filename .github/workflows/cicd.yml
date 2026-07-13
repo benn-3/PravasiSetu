@@ -28,7 +28,7 @@ jobs:
 
     # TODO: Add Kubernetes deployment steps when cluster is ready
     # - name: Set up Kubectl
-    #   uses: azure/setup-kubectl@v3
+    #   uses: aws/setup-kubectl@v3
     # - name: Configure Kubeconfig
     #   run: |
     #     mkdir -p $HOME/.kube
